@@ -71,6 +71,7 @@ img{
     background-image: url(../img/banner.jpg);
 }
 .header{
+    background-image: url(../img/banner.jpg);
     height: 65rem;
     background-size: cover;
     background-repeat: no-repeat;
