@@ -70,14 +70,6 @@ console.log(5);
 // });
 
 
-//El evento de submit
-
-const formulario = document.querySelector('.formulario');
-formulario.addEventListener('submit', function(evento){
-    evento.preventDefault();
-    console.log('Enviando Formulario');
-});
-
 
 // Eventos de los Inputs y Textarea (Eventos de teclado)
 
@@ -91,17 +83,79 @@ const datos = { // Con este objeto y la funcion leerTexto podemos ordenar mas la
 const nombre = document.querySelector('#nombre');
 const email = document.querySelector('#email');
 const mensaje = document.querySelector('#mensaje');
+const formulario = document.querySelector('.formulario');
 
 nombre.addEventListener('input', leerTexto);
 email.addEventListener('input',leerTexto);
 mensaje.addEventListener('input', leerTexto);
+
+//El evento de submit
+
+formulario.addEventListener('submit', function(evento){
+    evento.preventDefault();
+
+    // Validar formulario
+    const { nombre, email, mensaje } = datos;
+
+    if(nombre === '' || email === '' || mensaje === '') {
+        mostrarError('Todos los campos son obligatorios');
+
+        return;
+    }
+    
+    // Crear otra alerta para formulario successfully
+    
+    if (nombre !== '' || email !== '' || mensaje !== '') {
+        mostrarMensajeEnviado('El formulario ha sido enviado correctamente');
+
+        return;
+    } 
+
+    // Enviar formulario
+
+    console.log('Enviando formulario');
+});
 
 function leerTexto(e){
     //console.log(e.target.value); // Agregamos 'value' para ver que escribe el usuario 
     datos[e.target.id] = e.target.value;
 
     console.log(e.target); // Contiene el input donde esta escribiendo el usuario
-    console.log(datos);
+   // console.log(datos);
 
 }
 
+function mostrarAlerta(mensaje){
+    const alerta = document.createElement('P');
+    alerta.textContent = mensaje;
+}
+
+// Muestra un error en pantalla
+
+function mostrarError(mensaje) {
+    const error = document.createElement('P');
+    error.textContent = mensaje;
+    error.classList.add('error');
+    formulario.appendChild (error);
+
+    //Desaparece la notificacion 
+
+    setTimeout(function(){
+        error.remove();
+    }, 3000);
+}
+
+// Muestra mensaje de formulario enviado correctamente
+
+function mostrarMensajeEnviado(mensaje) {
+    const enviado = document.createElement('P');
+    enviado.textContent = mensaje;
+    enviado.classList.add('enviado');
+    formulario.appendChild(enviado);
+
+    //Desaparece la notificacion 
+
+    setTimeout(function(){
+        enviado.remove();
+    }, 3000);
+}
